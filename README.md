@@ -20,3 +20,7 @@ In this worksheet, I will be completing the tasks outlined in Parts 1 and 2 in t
   Write one (or more) functions that do something useful to pieces of the Gapminder or Singer data. It is logical to think about computing on the mini-data frames corresponding to the data for each specific country, location, year, band, album, … This would pair well with the prompt below about working with a nested data frame, as you could apply your function there.
 
   Make it something you can’t easily do with built-in functions. Make it something that’s not trivial to do with the simple dplyr verbs. The linear regression function presented here is a good starting point. You could generalize that to do quadratic regression (include a squared term) or use robust regression, using MASS::rlm() or robustbase::lmrob().
+
+Links to the files in my repository can be found below:
+
+hw06.Rmd file -- https://github.com/STAT545-UBC-students/hw06-xcct2012/blob/master/STAT547_hw06.Rmd
