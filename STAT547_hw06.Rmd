@@ -1,0 +1,170 @@
+---
+title: "STAT547_hw06.Rmd"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# STAT 547 Homework 06
+## Zachary Sherker
+
+# Introduction
+
+In this worksheet, I will be completing the tasks outlined in Parts 1 and 2 in the homework exercises as follows:
+
+## Part 1: Read and work the exercises in the Strings chapter
+
+(1) In code that doesn’t use stringr, you’ll often see paste() and paste0(). What’s the difference between the two functions? What stringr function are they equivalent to? How do the functions differ in their handling of NA?
+
+(2) In your own words, describe the difference between the sep and collapse arguments to str_c().
+
+(3) What does str_trim() do? What’s the opposite of str_trim()?
+
+(4) Write a function that turns (e.g.) a vector c("a", "b", "c") into the string a, b, and c. Think carefully about what it should do if given a vector of length 0, 1, or 2.
+
+## Part 2: Writing functions
+
+  Write one (or more) functions that do something useful to pieces of the Gapminder or Singer data. It is logical to think about computing on the mini-data frames corresponding to the data for each specific country, location, year, band, album, … This would pair well with the prompt below about working with a nested data frame, as you could apply your function there.
+
+  Make it something you can’t easily do with built-in functions. Make it something that’s not trivial to do with the simple dplyr verbs. The linear regression function presented here is a good starting point. You could generalize that to do quadratic regression (include a squared term) or use robust regression, using MASS::rlm() or robustbase::lmrob().
+  
+# Part 1: Strings chapter exercises
+
+First, I will load the packages required to complete the assigned tasks:
+
+```{r}
+library(tidyverse)
+library(stringr)
+library(stringi)
+```
+
+## Exercise 1: In code that doesn’t use stringr, you’ll often see paste() and paste0(). What’s the difference between the two functions? What stringr function are they equivalent to? How do the functions differ in their handling of NA?
+
+I will first sample the two functions being compared.
+
+Example of the paste() fxn:
+
+```{r}
+paste("lovely", "day")
+```
+
+Example of paste0() fxn:
+
+```{r}
+paste0("lovely", "day")
+```
+
+As is evident in the previous examples, the difference between the paste() and paste0() fxns is that paste() places a space between the objects in the string upon output whereas paste0() does not.
+
+The output of the str_c() function is quite similar to that of the paste0() function, as seen below, due to it's output of the objects in the string with no spaces:
+
+```{r}
+str_c("lovely", "day")
+```
+
+Now, how do the paste() and paste0() fxns differ in their use of NA in the strings:
+
+```{r}
+paste("lovely", "day", NA)
+paste0("lovely", "day", NA)
+```
+
+Both of these fxns treat NA as an object in the string.
+
+## Exercise 2:  In your own words, describe the difference between the sep and collapse arguments to str_c().
+
+First we will look at an example of each of the functions.
+
+str_c() sep fxn example:
+
+```{r}
+str_c(c("'Lovely day'", "'Use me'", "'Aint no sunshine'"), "Bill Withers", sep = " sung by ")
+```
+
+As you can see, the sep fxn combines objects in the strings and "Bill Withers" and seperates them by what we input in the sep fxn.
+
+str_c() collapse fxn example:
+
+```{r}
+str_c(c("'Lovely day'", "'Use me'", "'Aint no sunshine'"), "Bill Withers", collapse =  " sung by ")
+```
+
+On the other hand, the collapse fxn creates a single string from all the inputs after combining objects in the origional string with Bill Withers and then what we input in the collapse fxn.
+
+## Exercise 3: What does str_trim() do? What’s the opposite of str_trim()?
+
+str_trim removes the white space from the start and end of strings, as well as throughout the string.
+
+str_trim fxn example:
+
+```{r}
+Bill<- c("Lovely day", "Use me", "Aint no sunshine")
+str_trim(Bill, side = c("both", "left", "right"))
+```
+
+To the opposite effect, the paste function can be used to add whitespace to the individual strings:
+
+```{r}
+paste(" ", Bill, " ")
+```
+
+## Exercise 4: Write a function that turns (e.g.) a vector c("a", "b", "c") into the string a, b, and c. Think carefully about what it should do if given a vector of length 0, 1, or 2.
+
+```{r}
+stringer<- function(x){
+  return(str_c(c(x), sep = ",", collapse = ","))
+}
+stringer(c("a","b","c"))
+```
+
+# Part 2: Writing functions
+
+For this section of the homework assignment, I will write a function that is useful using the 'gapminder' dataset. The function I will put together will perform quadratic regression using the 'gapminder' dataset.
+
+First, I will load the necessary datasets:
+
+```{r}
+library(gapminder)
+library(MASS)
+```
+
+I will start by working with one country to develope the quadratic regression fxn:
+
+
+```{r}
+test_country<- "Canada"
+(test_country_data<- gapminder%>%
+    filter(country == test_country))
+```
+  
+I will then use stat_smooth to plot a quadratic regression of Canada's 'gdpPercap':
+
+```{r}
+TEST <- ggplot(test_country_data, aes(x = year, y = gdpPercap))
+
+TEST + geom_point() + stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.5) + ggtitle("Canadian gdpPercap quadratic regression")
+```
+
+```
+Now we can try this fxn out on a couple other countries in the 'gapminder' dataset:
+
+```{r}
+test_country_two<- "Sweden"
+(test_country_two_data<- gapminder%>%
+    filter(country == test_country_two))
+```
+
+Let's see how the plot of quadratic regression looks for sweden:
+
+```{r}
+TEST_TWO <- ggplot(test_country_two_data, aes(x = year, y = gdpPercap))
+
+TEST_TWO + geom_point() + stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1.5) + ggtitle("Swedish gdpPercap quadratic regression")
+```
+
+
+  
+  
+  
