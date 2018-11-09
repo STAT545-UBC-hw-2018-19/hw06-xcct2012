@@ -21,6 +21,8 @@ In this worksheet, I will be completing the tasks outlined in Parts 1 and 2 in t
 
   Make it something you can’t easily do with built-in functions. Make it something that’s not trivial to do with the simple dplyr verbs. The linear regression function presented here is a good starting point. You could generalize that to do quadratic regression (include a squared term) or use robust regression, using MASS::rlm() or robustbase::lmrob().
 
-Links to the files in my repository can be found below:
+*Links to the files in my repository can be found below:
 
 hw06.Rmd file -- https://github.com/STAT545-UBC-students/hw06-xcct2012/blob/master/STAT547_hw06.Rmd
+
+hw06.html file -- https://github.com/STAT545-UBC-students/hw06-xcct2012/blob/master/STAT547_hw06.html
